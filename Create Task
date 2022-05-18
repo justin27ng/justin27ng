@@ -1,0 +1,45 @@
+var choices = ["Apple","Banana","Orange"];
+var prices = [1.25,1.00,1.25];
+var funds;
+var price = 0;
+var newItem;
+var shoppingList = [];
+
+onEvent("addButton", "click", function(){
+  updateShoppingList(funds);
+});
+
+onEvent("checkOut", "click", function() {
+  funds = getNumber("money");
+  updateShoppingList(funds);
+});
+
+
+function updateShoppingList(balance){
+  newItem = getText("useraddItem");
+  if ((newItem == "Apple")||(newItem == "Banana")||newItem == "Orange"){
+    appendItem(shoppingList, newItem);
+    setText("basketList", shoppingList.join("\n"));
+    setText("availabilityItem", "");
+    for(var i = 0; i<3; i++){
+      if(newItem == choices[i]){
+        price = price + prices[i];
+        setText("response","Total Cost = " + "\n" + "$" + price);
+        setText("useraddItem","");
+      }
+    }
+  }else{
+    setText("availabilityItem","Sorry but we do not have this item in stock");
+    setText("useraddItem","");
+  } 
+  if (balance < price){
+    setText("response", "Total Cost = $ " + price + "\n" + "Sorry but you do not have enough money to buy these products");
+    setText("availabilityItem","");
+  }else if (balance >= price){
+    setText("response","Thank you for your purchase!");
+    setText("availabilityItem","");
+  }else{
+    setText("response","Please input how much money you have. The cost is $" + price);
+  }
+}
+
