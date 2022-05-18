@@ -1,0 +1,29 @@
+//declaraing variables for calculating the value of weight
+var weight;
+var mass;
+var planetList = (getColumn ("Planets of our Solar System", "Planet"));
+var gravity = (getColumn("Planets of our Solar System", "Gravity"));
+//When calcButton is clicked, get the gravity from
+//the selected planet.
+onEvent("calcButton", "click", function( ) {
+  var filteredGravity = [];
+  filteredGravity = [];
+  var selectedPlanet = getText("planetDropDown");
+  //From the planetList, get the gravity from the corresponding
+  //planet and calculate the mass on that planet by doing math.
+  for (var i = 0; i < planetList.length; i++) {
+    var planet = planetList[i];
+  /*Get the weight from the weightInput, then to find the mass,
+  divide the weight by 9.8 and then multiply the mass by gravity
+  from the gravity list.*/
+    if (planet == selectedPlanet) {
+      appendItem(filteredGravity, gravity[i]);
+      weight = getText("weightInput");
+      mass = weight/9.8;
+      mass = mass*gravity[i];
+      }
+  }
+  //Change the property of the massOutput and 
+  //then round to the nearest whole number
+setProperty("massOutput", "text", Math.round(mass));
+});
